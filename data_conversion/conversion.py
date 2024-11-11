@@ -47,3 +47,25 @@ def drop_single_value_cols(geno):
     is_single_value = lambda x: len(x.dropna().unique()) <= 1
     columns_to_drop = geno.columns[geno.apply(is_single_value, axis=0)]
     return geno.drop(columns=columns_to_drop)
+
+def fill_nan_with_distribution(df):
+    # Dictionary to store the probability distributions for each column
+    distributions = {}
+
+    # Calculate the probability distribution for each column
+    for col in df.columns:
+        value_counts = df[col].value_counts(normalize=True, dropna=True)
+        distributions[col] = value_counts
+
+    # Function to fill NaN values in a single column based on its probability distribution
+    def fill_column(col, dist):
+        # Get the probability distribution for the column
+        prob_dist = dist[col]
+        # Generate random choices based on the probability distribution
+        return df[col].apply(lambda x: np.random.choice(prob_dist.index, p=prob_dist.values) if pd.isna(x) else x)
+
+    # Apply the fill function to each column
+    for col in df.columns:
+        df[col] = fill_column(col, distributions)
+
+    return df
