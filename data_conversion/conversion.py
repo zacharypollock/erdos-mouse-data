@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 
 def get_geno_data(folder='data/', filename='Gatti_2014_geno.csv'):
     geno = pd.read_csv(folder + filename, na_values = ['--'] )
