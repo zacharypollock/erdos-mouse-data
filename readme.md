@@ -61,6 +61,7 @@ We then set aside 20% of the data to use as a testing set and used the remaining
 The distribution of neutrophil counts is bell-shaped and somewhat right-skewed.
 One notable feature is that the distribution differs based on sex, as seen in this plot:
 ![neutrophil histogram](images/neutrophil_sex.png)
+
 As a simple baseline, ignoring the genetic data entirely, we just used the average for each sex as a prediction.
 Our goal was to be able to use the genotype data to outperform this naive model.
 
@@ -77,6 +78,7 @@ Since we have many different SNPs, we could not just use a significance value of
 
 We also looked at the distribution of all $F$-scores, and saw that these two SNPs do look like outliers compared to the rest:
 ![f-score histogram](images/snp_fscore.png)
+
 The two $F$-scores on the right correspond to the two SNPs that were beyond the significance threshold.
 
 Our first model, then, is a multilinear regression model using the ternary values of these two SNPs as well as the sex of the mouse.
@@ -94,6 +96,7 @@ We used linear regression on the same features as model 1, but this time with up
 Another possibility we tried is using Lasso regression on all the SNPs, since it naturally tends to select features by the regularization setting some of the coefficients to zero.
 We tried different values from $10^{-6}$ to $10^5$ for the regularization parameter alpha, and looked at the mean squared error over a 5-fold cross validation of the training set:
 ![lasso mean squared error graph](images/lasso_mse.png)
+
 The best MSE in the cross-validation tests occured with an alpha of 50.
 Unlike the previous models, which used very few SNPs, this one is much more complicated: it has a total of 40 different SNPs with non-zero coefficients when trained on the training data.
 Both SNPs we identified earlier as being statistically significant are included among them.
@@ -104,6 +107,7 @@ Another option to reduce the dimension was to use an unsupervised algorithm to d
 We tried to first use PCA on the genotype data, and then predict the neutrophil count using only the most significant $n$ components for different values of $n$.
 The 5-fold cross-validation MSE for different numbers of components is shown below:
 ![PCA mean squared error graph](images/pca_mse.png)
+
 The best MSE occurred with 42 principal components (interestingly, a similar number of parameters to the previous model).
 However, this MSE didn't end up improving on the baseline MSE, suggesting that the information about neutrophil count was likely lost in the less significant principal components.
 
