@@ -81,6 +81,10 @@ We also looked at the distribution of all $F$-scores, and saw that these two SNP
 
 The two $F$-scores on the right correspond to the two SNPs that were beyond the significance threshold.
 
+As an alternate visualization, we can plot them in a Manhattan plot, showing the $p$-values and their positions along the DNA sequence (M is the mitochondrial DNA).
+Again, the two SNPs above stand out as being higher than the rest:
+![manhattan plot](images/manhattan.png)
+
 Our first model, then, is a multilinear regression model using the ternary values of these two SNPs as well as the sex of the mouse.
 
 # Model 2: Non-linear interaction
